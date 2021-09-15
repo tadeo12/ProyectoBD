@@ -26,3 +26,20 @@ CREATE TABLE Sucursal (
         ON DELETE RESTRICT ON UPDATE CASCADE
 )
 
+CREATE TABLE Empleado(
+    legajo SMALLINT UNSIGNED NOT NULL,
+    apellido VARCHAR(40) NOT NULL,
+    nombre VARCHAR(40) NOT NULL,
+    tipo_doc VARCHAR(40) NOT NULL,
+    direccion VARCHAR(40) NOT NULL,
+    telefono VARCHAR(40) NOT NULL,
+    cargo VARCHAR(40) NOT NULL,
+    password VARCHAR(40) NOT NULL,
+    nro_suc VARCHAR(40) NOT NULL
+
+    CONSTRAINT pk_Empleado PRIMARY KEY (nro_suc),
+
+    CONSTRAINT FK_Empleado_Sucursal
+    FOREIGN KEY (nro_suc) REFERENCES Sucursal(nro_suc)
+        ON DELETE RESTRICT ON UPDATE CASCADE
+)
