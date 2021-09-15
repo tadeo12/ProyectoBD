@@ -26,3 +26,26 @@ CREATE TABLE Sucursal (
         ON DELETE RESTRICT ON UPDATE CASCADE
 )
 
+CREATE TABLE Transaccion (
+    nro_trans BIGINT UNSIGNED NOT NULL,
+    fecha DATE NOT NULL,
+    hora VARCHAR(5) NOT NULL,
+    monto FLOAT(20,2) UNSIGNED NOT NULL
+
+    CONSTRAINT pk_Transaccion PRIMARY KEY (nro_trans)
+
+)
+
+CREATE TABLE Transaccion_por_caja (
+    nro_trans
+    cod_caja
+
+)
+
+CREATE TABLE Transferencia (
+    nro_trans
+    nro_cliente 
+    origen
+    destino
+
+)
