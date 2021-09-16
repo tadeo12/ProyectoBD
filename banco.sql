@@ -332,10 +332,38 @@ CREATE TABLE Transferencia (
 
 )ENGINE=InnoDB;
 
+/* VISTA */
+
+ CREATE VIEW trans_cajas_ahorro AS 
+   SELECT b.nombre_barco, b.capitan, 
+          c.clase, c.pais, c.nro_caniones, c.calibre, c. desplazamiento,
+		  b_c.lanzado
+   FROM (barcos as b JOIN  barco_clase as b_c ON b.nombre_barco = b_c.nombre_barco) 
+        JOIN clases as c   ON c.clase = b_c.clase
+   WHERE ;
+
+
 
 /* CREACIÓN DE USUARIOS Y PRIVILEGIOS*/
 
 
 CREATE USER 'admin'@'localhost'  IDENTIFIED BY 'admin';
-GRANT ALL PRIVILEGES ON batallas.* TO 'admin'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON banco.* TO 'admin'@'localhost' WITH GRANT OPTION;
 
+CREATE USER 'empleado'@'%'  IDENTIFIED BY 'empleado';
+GRANT SELECT ON banco.Sucursal TO 'empleado'@'%' ;
+GRANT SELECT ON banco.Tasa_Plazo_Fijo TO 'empleado'@'%' ;
+GRANT SELECT ON banco.Tasa_Prestamo TO 'empleado'@'%' ;
+
+GRANT SELECT, INSERT ON banco.Prestamo TO 'empleado'@'%' ;
+GRANT SELECT, INSERT ON banco.Plazo_Fijo TO 'empleado'@'%' ;
+GRANT SELECT, INSERT ON banco.Plazo_Cliente TO 'empleado'@'%' ;
+GRANT SELECT, INSERT ON Caja_AhorroTO 'empleado'@'%' ;
+GRANT SELECT, INSERT ON Tarjeta TO 'empleado'@'%' ;
+
+GRANT SELECT, INSERT, UPDATE ON Cliente_CA TO 'empleado'@'%' ;
+GRANT SELECT, INSERT, UPDATE ON Cliente TO 'empleado'@'%' ;
+GRANT SELECT, INSERT, UPDATE ON Pago TO 'empleado'@'%' ;
+
+
+/*update*/
