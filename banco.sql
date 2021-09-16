@@ -44,6 +44,37 @@ CREATE TABLE Empleado(
         ON DELETE RESTRICT ON UPDATE CASCADE
 )ENGINE=InnoDB;
 
+CREATE TABLE Caja_Ahorro (
+    nro_ca INT UNSIGNED NOT NULL,
+    CBU BIGINT UNSIGNED NOT NULL,
+    saldo FLOAT(20,2) UNSIGNED NOT NULL
+
+    CONSTRAINT pk_Caja_Ahorro PRIMARY KEY (nro_ca)
+
+)ENGINE=InnoDB;
+
+CREATE TABLE Cliente_CA (
+    nro_cliente MEDIUMINT UNSIGNED NOT NULL,
+    nro_ca INT UNSIGNED NOT NULL,
+
+    CONSTRAINT pk_Caja_Ahorro PRIMARY KEY (nro_cliente, nro_ca)
+
+   CONSTRAINT FK_Cliente_CA_Cliente
+    FOREIGN KEY (nro_cliente) REFERENCES Cliente (nro_cliente)  
+       ON DELETE RESTRICT ON UPDATE CASCADE
+
+    CONSTRAINT FK_Cliente_CA_Caja_Ahorro
+    FOREIGN KEY (nro_ca) REFERENCES Caja_Ahorro (nro_ca)
+        ON DELETE RESTRICT ON UPDATE CASCADE 
+
+)ENGINE=InnoDB;
+
+CREATE TABLE Caja (
+    cod_caja MEDIUMINT UNSIGNED NOT NULL,
+
+    CONSTRAINT pk_Caja PRIMARY KEY (cod_caja)
+)ENGINE=InnoDB;
+
 CREATE TABLE Transaccion (
     nro_trans BIGINT UNSIGNED NOT NULL,
     fecha DATE NOT NULL,
@@ -55,16 +86,37 @@ CREATE TABLE Transaccion (
 )ENGINE=InnoDB;
 
 CREATE TABLE Transaccion_por_caja (
-    nro_trans
-    cod_caja
+    nro_trans BIGINT UNSIGNED NOT NULL,
+    cod_caja  MEDIUMINT UNSIGNED NOT NULL,
+
+    CONSTRAINT pk_Transaccion_por_caja PRIMARY KEY (nro_trans)
+
+    CONSTRAINT FK_Transaccion_por_caja_Transaccion
+    FOREIGN KEY (nro_trans) REFERENCES Transaccion (nro_trans)  
+       ON DELETE RESTRICT ON UPDATE CASCADE
+
+    CONSTRAINT FK_Transaccion_por_caja_Caja
+    FOREIGN KEY (cod_caja) REFERENCES Caja (cod_caja)
+        ON DELETE RESTRICT ON UPDATE CASCADE
 
 )ENGINE=InnoDB;
 
 CREATE TABLE Transferencia (
-    nro_trans
-    nro_cliente 
-    origen
-    destino
+    nro_trans BIGINT UNSIGNED NOT NULL,
+    nro_cliente MEDIUMINT UNSIGNED NOT NULL,
+    origen INT UNSIGNED NOT NULL, /*corresponde con nro caja de ahorro de la relacion Cliente_CA*/
+    destino INT UNSIGNED NOT NULL /*nro caja de ahorro destino*/
+
+    CONSTRAINT pk_Transferencia PRIMARY KEY (nro_trans)
+
+    CONSTRAINT FK_Transferencia_Cliente_CA
+    FOREIGN KEY (origen) REFERENCES Transaccion (nro_ca)  
+       ON DELETE RESTRICT ON UPDATE CASCADE
+
+    CONSTRAINT FK_Transferencia_Cliente_Caja_Ahorro
+    FOREIGN KEY (destino) REFERENCES Transaccion (nro_ca)  
+       ON DELETE RESTRICT ON UPDATE CASCADE
+
 
 )ENGINE=InnoDB;
 
