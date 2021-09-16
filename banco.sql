@@ -332,3 +332,10 @@ CREATE TABLE Transferencia (
 
 )ENGINE=InnoDB;
 
+
+/* CREACIÓN DE USUARIOS Y PRIVILEGIOS*/
+
+
+CREATE USER 'admin'@'localhost'  IDENTIFIED BY 'admin';
+GRANT ALL PRIVILEGES ON batallas.* TO 'admin'@'localhost' WITH GRANT OPTION;
+
