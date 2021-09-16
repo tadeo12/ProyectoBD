@@ -24,9 +24,8 @@ CREATE TABLE Sucursal (
     CONSTRAINT FK_Sucursal_Ciudad
     FOREIGN KEY (cod_postal) REFERENCES Ciudad(cod_postal)
         ON DELETE RESTRICT ON UPDATE CASCADE
-)
+)ENGINE=InnoDB;
 
-<<<<<<< HEAD
 CREATE TABLE Empleado(
     legajo SMALLINT UNSIGNED NOT NULL,
     apellido VARCHAR(40) NOT NULL,
@@ -43,8 +42,8 @@ CREATE TABLE Empleado(
     CONSTRAINT FK_Empleado_Sucursal
     FOREIGN KEY (nro_suc) REFERENCES Sucursal(nro_suc)
         ON DELETE RESTRICT ON UPDATE CASCADE
-)
-=======
+)ENGINE=InnoDB;
+
 CREATE TABLE Transaccion (
     nro_trans BIGINT UNSIGNED NOT NULL,
     fecha DATE NOT NULL,
@@ -53,13 +52,13 @@ CREATE TABLE Transaccion (
 
     CONSTRAINT pk_Transaccion PRIMARY KEY (nro_trans)
 
-)
+)ENGINE=InnoDB;
 
 CREATE TABLE Transaccion_por_caja (
     nro_trans
     cod_caja
 
-)
+)ENGINE=InnoDB;
 
 CREATE TABLE Transferencia (
     nro_trans
@@ -67,5 +66,5 @@ CREATE TABLE Transferencia (
     origen
     destino
 
-)
->>>>>>> 5a6dcc1ceffb268ecdac8f0d23303b8ec3481952
+)ENGINE=InnoDB;
+
