@@ -16,9 +16,9 @@ INSERT INTO Caja_Ahorro (CBU, saldo) VALUES(9999999990000000999, 10000.50);
 INSERT INTO Caja_Ahorro (CBU, saldo) VALUES(23845526, 100000);
 
 /*cliente(nro_cliente, apellido, nombre, tipo_doc, nro_doc, direccion, telefono, fecha_nac)*/
-INSERT INTO Cliente (apellido, nombre, tipo_doc, nro_doc, direccion, telefono, fecha_nac) VALUES("Villafaña", "Tadeo", "DNI", 42842432, "2983444967", str_to_date('12/10/2000', '%d/%m/%Y'));
-INSERT INTO Cliente (apellido, nombre, tipo_doc, nro_doc, direccion, telefono, fecha_nac) VALUES("Rodi", "Quimey", "DNI", 41953903, "2392569167", str_to_date('30/07/1999', '%d/%m/%Y'));
-INSERT INTO Cliente (apellido, nombre, tipo_doc, nro_doc, direccion, telefono, fecha_nac) VALUES("Flores", "Pepe", "DNI", 42815954, "2917856945", str_to_date('12/10/2000', '%d/%m/%Y'));
+INSERT INTO Cliente (apellido, nombre, tipo_doc, nro_doc, direccion, telefono, fecha_nac) VALUES("Villafaña", "Tadeo", "DNI", 42842432, "12 de octubre 870",  "2983444967", str_to_date('12/10/2000', '%d/%m/%Y'));
+INSERT INTO Cliente (apellido, nombre, tipo_doc, nro_doc, direccion, telefono, fecha_nac) VALUES("Rodi", "Quimey", "DNI", 41953903, "Cordoba 39", "2392569167", str_to_date('30/07/1999', '%d/%m/%Y'));
+INSERT INTO Cliente (apellido, nombre, tipo_doc, nro_doc, direccion, telefono, fecha_nac) VALUES("Flores", "Pepe", "DNI", 42815954,"A la vuelta de la esquina", "2917856945", str_to_date('12/10/2000', '%d/%m/%Y'));
 
 /* cliente_CA (nro_cliente, nro_ca)*/
 
@@ -47,7 +47,7 @@ INSERT INTO Transaccion_por_caja VALUES (3, 1);
 INSERT INTO Transaccion_por_caja VALUES (4, 2);
 
 /* Deposito(nro_trans, nro_ca)*/
-INSERT INTO Deposito VALUES(2, 0);
+INSERT INTO Deposito VALUES(2, 1);
 
 /*extraccion(nro_trans, nro_cliente, nro_ca)*/
 INSERT INTO Extraccion VALUES(2,3 ,1);
