@@ -12,7 +12,7 @@ CREATE TABLE Ciudad (
 )ENGINE=InnoDB;
 
 CREATE TABLE Sucursal (
-    nro_suc SMALLINT UNSIGNED NOT NULL,
+    nro_suc SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(40) NOT NULL,
     direccion VARCHAR(45) NOT NULL,
     telefono VARCHAR(15) NOT NULL,
@@ -27,15 +27,15 @@ CREATE TABLE Sucursal (
 )ENGINE=InnoDB;
 
 CREATE TABLE Empleado(
-    legajo SMALLINT UNSIGNED NOT NULL,
+    legajo SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     apellido VARCHAR(40) NOT NULL,
     nombre VARCHAR(40) NOT NULL,
-    tipo_doc VARCHAR(40) NOT NULL,
+    tipo_doc VARCHAR(20) NOT NULL,
     nro_doc INT UNSIGNED NOT NULL,
     direccion VARCHAR(40) NOT NULL,
     telefono VARCHAR(40) NOT NULL,
     cargo VARCHAR(40) NOT NULL,
-    password VARCHAR(40) NOT NULL,
+    password CHAR(32) NOT NULL,
     nro_suc SMALLINT UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Empleado PRIMARY KEY (legajo),
@@ -46,10 +46,10 @@ CREATE TABLE Empleado(
 ) ENGINE=InnoDB;
 
 CREATE TABLE Cliente (
-    nro_cliente MEDIUMINT UNSIGNED NOT NULL,
+    nro_cliente INT UNSIGNED NOT NULL AUTO_INCREMENT,
     apellido VARCHAR(40) NOT NULL,
     nombre VARCHAR(40) NOT NULL,
-    tipo_doc VARCHAR(40) NOT NULL,
+    tipo_doc VARCHAR(20) NOT NULL,
     nro_doc INT UNSIGNED NOT NULL,
     direccion VARCHAR(40) NOT NULL,
     telefono VARCHAR(40) NOT NULL,
@@ -60,12 +60,12 @@ CREATE TABLE Cliente (
 ) ENGINE=InnoDB;
 
 CREATE TABLE Plazo_Fijo(
-    nro_plazo INT UNSIGNED NOT NULL,
-    capital DECIMAL(20,2) NOT NULL,
-    fecha_inicio DATE NOT NULL;
-    fecha_fin DATE NOT NULL
-    tasa_interes DECIMAL(6,2) NOT NULL,
-    interes DECIMAL(20,2) NOT NULL,
+    nro_plazo INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    capital DECIMAL(16,2) UNSIGNED NOT NULL,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
+    tasa_interes DECIMAL(4,2) UNSIGNED NOT NULL,
+    interes DECIMAL(16,2) UNSIGNED NOT NULL,
     nro_suc SMALLINT UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Plazo_Fijo PRIMARY KEY (nro_plazo),
@@ -78,16 +78,16 @@ CREATE TABLE Plazo_Fijo(
 
 CREATE TABLE Tasa_Plazo_Fijo (
     periodo SMALLINT UNSIGNED NOT NULL,
-    monto_inf DECIMAL(20,2) UNSIGNED NOT NULL,
-    monto_sup DECIMAL(20,2) UNSIGNED NOT NULL,
-    tasa DECIMAL(6,2) UNSIGNED NOT NULL,
+    monto_inf DECIMAL(16,2) UNSIGNED NOT NULL,
+    monto_sup DECIMAL(16,2) UNSIGNED NOT NULL,
+    tasa DECIMAL(4,2) UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Tasa_Plazo_Fijo PRIMARY KEY (periodo, monto_inf, monto_sup)
 ) ENGINE=InnoDB;
 
 CREATE TABLE Plazo_Cliente (
-    nro_plazo INT UNSIGNED NOT NULL,
-    nro_cliente MEDIUMINT UNSIGNED NOT NULL,
+    nro_plazo INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nro_cliente INT UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Plazo_Cliente PRIMARY KEY (nro_plazo, nro_cliente),
 
@@ -102,15 +102,15 @@ CREATE TABLE Plazo_Cliente (
 ) ENGINE=InnoDB;
 
 CREATE TABLE Prestamo (
-    nro_prestamo INT UNSIGNED NOT NULL,
+    nro_prestamo INT UNSIGNED NOT NULL AUTO_INCREMENT,
     fecha DATE NOT NULL,
     cant_meses TINYINT UNSIGNED NOT NULL,
-    monto DECIMAL(20,2) UNSIGNED NOT NULL,
-    tasa_interes FLOAT(7,2) UNSIGNED NOT NULL,
-    interes FLOAT(20,2) UNSIGNED NOT NULL,
-    valor_cuota FLOAT(20,2) UNSIGNED NOT NULL,
+    monto DECIMAL(10,2) UNSIGNED NOT NULL,
+    tasa_interes DECIMAL(4,2) UNSIGNED NOT NULL,
+    interes DECIMAL(9,2) UNSIGNED NOT NULL,
+    valor_cuota DECIMAL(9,2) UNSIGNED NOT NULL,
     legajo SMALLINT UNSIGNED NOT NULL, /*DE EMPLEADO*/
-    nro_cliente MEDIUMINT UNSIGNED NOT NULL,
+    nro_cliente INT UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Prestamo PRIMARY KEY (nro_prestamo),
 
@@ -128,7 +128,7 @@ CREATE TABLE Pago (
     nro_prestamo INT UNSIGNED NOT NULL,
     nro_pago TINYINT UNSIGNED NOT NULL,
     fecha_venc DATE NOT NULL,
-    fecha_pago DATE NOT NULL,
+    fecha_pago DATE,
 
     CONSTRAINT pk_Pago PRIMARY KEY (nro_prestamo, nro_pago),
     
@@ -141,26 +141,26 @@ CREATE TABLE Pago (
 
 CREATE TABLE Tasa_Prestamo(
     periodo SMALLINT UNSIGNED NOT NULL,
-    monto_inf FLOAT(20,2) UNSIGNED NOT NULL,
-    monto_sup FLOAT(20,2) UNSIGNED NOT NULL,
-    tasa FLOAT(7,2) UNSIGNED NOT NULL,
+    monto_inf DECIMAL(10,2) UNSIGNED NOT NULL,
+    monto_sup DECIMAL(10,2) UNSIGNED NOT NULL,
+    tasa DECIMAL(4,2) UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Tasa_Prestamo PRIMARY KEY (periodo, monto_inf, monto_sup)   
 
 ) ENGINE=InnoDB;
 
 CREATE TABLE Caja_Ahorro (
-    nro_ca INT UNSIGNED NOT NULL,
+    nro_ca INT UNSIGNED NOT NULL AUTO_INCREMENT,
     CBU BIGINT UNSIGNED NOT NULL,
-    saldo FLOAT(20,2) UNSIGNED NOT NULL,
+    saldo DECIMAL(16,2) UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Caja_Ahorro PRIMARY KEY (nro_ca)
 
 ) ENGINE=InnoDB;
 
 CREATE TABLE Cliente_CA (
-    nro_cliente MEDIUMINT UNSIGNED NOT NULL,
-    nro_ca INT UNSIGNED NOT NULL,
+    nro_cliente INT UNSIGNED NOT NULL,
+    nro_ca INT UNSIGNED NOT NULL AUTO_INCREMENT,
 
     CONSTRAINT pk_Caja_Ahorro PRIMARY KEY (nro_cliente, nro_ca),
 
@@ -175,11 +175,11 @@ CREATE TABLE Cliente_CA (
 ) ENGINE=InnoDB;
 
 CREATE TABLE Tarjeta (
-    nro_tarjeta BIGINT UNSIGNED NOT NULL,
+    nro_tarjeta BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     PIN VARCHAR(32) NOT NULL,
     CVT VARCHAR (32) NOT NULL,
     fecha_venc DATE NOT NULL,
-    nro_cliente MEDIUMINT UNSIGNED NOT NULL,
+    nro_cliente INT UNSIGNED NOT NULL,
     nro_ca INT UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Tarjeta PRIMARY KEY (nro_tarjeta),
@@ -193,13 +193,13 @@ CREATE TABLE Tarjeta (
 ) ENGINE=InnoDB;
 
 CREATE TABLE Caja (
-    cod_caja MEDIUMINT UNSIGNED NOT NULL,
+    cod_caja INT UNSIGNED NOT NULL AUTO_INCREMENT,
 
     CONSTRAINT pk_Caja PRIMARY KEY (cod_caja)
 ) ENGINE=InnoDB;
 
 CREATE TABLE Ventanilla (
-    cod_caja MEDIUMINT UNSIGNED NOT NULL,
+    cod_caja INT UNSIGNED NOT NULL,
     nro_suc SMALLINT UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Ventanilla PRIMARY KEY (cod_caja),
@@ -214,7 +214,7 @@ CREATE TABLE Ventanilla (
 ) ENGINE=InnoDB;
 
 CREATE TABLE ATM (
-    cod_caja MEDIUMINT UNSIGNED NOT NULL,
+    cod_caja INT UNSIGNED NOT NULL,
     cod_postal SMALLINT UNSIGNED NOT NULL,
     direccion VARCHAR(40) NOT NULL,
 
@@ -230,18 +230,18 @@ CREATE TABLE ATM (
 ) ENGINE=InnoDB;
 
 CREATE TABLE Transaccion (
-    nro_trans BIGINT UNSIGNED NOT NULL,
+    nro_trans BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     fecha DATE NOT NULL,
     hora TIME NOT NULL, /*FORMATO DE LA HORA (????)*/
-    monto FLOAT(20,2) UNSIGNED NOT NULL,
+    monto DECIMAL(16,2) UNSIGNED NOT NULL,
     CONSTRAINT pk_Transaccion PRIMARY KEY (nro_trans)
 
 ) ENGINE=InnoDB;
 
 CREATE TABLE Debito (
     nro_trans BIGINT UNSIGNED NOT NULL,
-    descripcion VARCHAR (80) NOT NULL,
-    nro_cliente MEDIUMINT UNSIGNED NOT NULL,
+    descripcion TEXT ,
+    nro_cliente INT UNSIGNED NOT NULL,
     nro_ca INT UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Debito PRIMARY KEY (nro_trans),
@@ -259,7 +259,7 @@ CREATE TABLE Debito (
 
 CREATE TABLE Transaccion_por_caja (
     nro_trans BIGINT UNSIGNED NOT NULL,
-    cod_caja  MEDIUMINT UNSIGNED NOT NULL,
+    cod_caja  INT UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Transaccion_por_caja PRIMARY KEY (nro_trans),
 
@@ -292,7 +292,7 @@ CREATE TABLE Deposito (
 
 CREATE TABLE Extraccion (
     nro_trans  BIGINT UNSIGNED NOT NULL,
-    nro_cliente MEDIUMINT UNSIGNED NOT NULL,
+    nro_cliente INT UNSIGNED NOT NULL,
     nro_ca INT UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Extraccion PRIMARY KEY (nro_trans),
@@ -309,7 +309,7 @@ CREATE TABLE Extraccion (
 
 CREATE TABLE Transferencia (
     nro_trans BIGINT UNSIGNED NOT NULL,
-    nro_cliente MEDIUMINT UNSIGNED NOT NULL,
+    nro_cliente INT UNSIGNED NOT NULL,
     origen INT UNSIGNED NOT NULL, /*corresponde con nro caja de ahorro de la relacion Cliente_CA*/
     destino INT UNSIGNED NOT NULL, /*nro caja de ahorro destino*/
 
@@ -319,13 +319,11 @@ CREATE TABLE Transferencia (
     FOREIGN KEY (nro_trans) REFERENCES Transaccion_por_caja (nro_trans)  
        ON DELETE RESTRICT ON UPDATE CASCADE,
 
-    CONSTRAINT FK_Transferencia_Cliente
-    FOREIGN KEY (nro_cliente) REFERENCES Cliente (nro_cliente)  
+    CONSTRAINT FK_Transferencia_Cliente_CA
+    FOREIGN KEY (nro_cliente,origen) REFERENCES Cliente_CA (nro_cliente, nro_ca)  
        ON DELETE RESTRICT ON UPDATE CASCADE,
 
-    CONSTRAINT FK_Transferencia_Cliente_CA
-    FOREIGN KEY (origen) REFERENCES Cliente_CA (nro_ca)  
-       ON DELETE RESTRICT ON UPDATE CASCADE,
+   
 /*LO MISMO PARA EL DESTINO QUE EL ORIGEN???*/
     CONSTRAINT FK_Transferencia_Caja_Ahorro
     FOREIGN KEY (destino) REFERENCES Caja_Ahorro (nro_ca)  
@@ -361,12 +359,12 @@ GRANT SELECT ON banco.Tasa_Prestamo TO 'empleado'@'%' ;
 GRANT SELECT, INSERT ON banco.Prestamo TO 'empleado'@'%' ;
 GRANT SELECT, INSERT ON banco.Plazo_Fijo TO 'empleado'@'%' ;
 GRANT SELECT, INSERT ON banco.Plazo_Cliente TO 'empleado'@'%' ;
-GRANT SELECT, INSERT ON Caja_Ahorro TO 'empleado'@'%' ;
-GRANT SELECT, INSERT ON Tarjeta TO 'empleado'@'%' ;
+GRANT SELECT, INSERT ON banco.Caja_Ahorro TO 'empleado'@'%' ;
+GRANT SELECT, INSERT ON banco.Tarjeta TO 'empleado'@'%' ;
 
-GRANT SELECT, INSERT, UPDATE ON Cliente_CA TO 'empleado'@'%' ;
-GRANT SELECT, INSERT, UPDATE ON Cliente TO 'empleado'@'%' ;
-GRANT SELECT, INSERT, UPDATE ON Pago TO 'empleado'@'%' ;
+GRANT SELECT, INSERT, UPDATE ON banco.Cliente_CA TO 'empleado'@'%' ;
+GRANT SELECT, INSERT, UPDATE ON banco.Cliente TO 'empleado'@'%' ;
+GRANT SELECT, INSERT, UPDATE ON banco.Pago TO 'empleado'@'%' ;
 
 
 /*update*/
