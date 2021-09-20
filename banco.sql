@@ -86,7 +86,7 @@ CREATE TABLE Tasa_Plazo_Fijo (
 ) ENGINE=InnoDB;
 
 CREATE TABLE Plazo_Cliente (
-    nro_plazo INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nro_plazo INT UNSIGNED NOT NULL ,
     nro_cliente INT UNSIGNED NOT NULL,
 
     CONSTRAINT pk_Plazo_Cliente PRIMARY KEY (nro_plazo, nro_cliente),
