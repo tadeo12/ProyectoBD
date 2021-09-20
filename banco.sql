@@ -331,19 +331,41 @@ CREATE TABLE Transferencia (
 
 ) ENGINE=InnoDB;
 
-/* VISTA 
+/* VISTA */
 
  CREATE VIEW trans_cajas_ahorro AS 
-   SELECT b.nombre_barco, b.capitan, 
-          c.clase, c.pais, c.nro_caniones, c.calibre, c. desplazamiento,
-		  b_c.lanzado
-   FROM (barcos as b JOIN  barco_clase as b_c ON b.nombre_barco = b_c.nombre_barco) 
-        JOIN clases as c   ON c.clase = b_c.clase
-   WHERE ;
+   (((SELECT D.nro_ca, saldo, T.nro_trans, fecha, hora, 'Debito' AS tipo, monto, NULL AS cod_caja,
+				 C.nro_cliente, tipo_doc, nro_doc, nombre, apellido, NULL AS destino   #SUBCONSULTA DEBITO
+		FROM 	(((debito D JOIN transaccion T ON D.nro_trans = T.nro_trans) 
+					JOIN cliente_ca CCA ON CCA.nro_ca = D.nro_ca)
+					JOIN caja_ahorro CA ON CCA.nro_ca = CA.nro_ca )
+					JOIN cliente C ON CCA.nro_cliente = C.nro_cliente)
+	UNION 
+    (SELECT D.nro_ca, saldo, T.nro_trans, fecha, hora, 'Deposito' AS tipo, monto,  cod_caja,
+		NULL AS nro_cliente,NULL AS tipo_doc,NULL AS nro_doc,NULL AS nombre,NULL AS apellido, NULL AS destino   #SUBCONSULTA DEPOSITO
+			FROM 	(((deposito D JOIN transaccion T ON D.nro_trans = T.nro_trans)
+						JOIN transaccion_por_caja TPC ON TPC.nro_trans= T.nro_trans)
+						JOIN cliente_ca CCA ON CCA.nro_ca = D.nro_ca)
+						JOIN caja_ahorro CA ON CCA.nro_ca = CA.nro_ca ) )
+		UNION 
+		(SELECT E.nro_ca, saldo, T.nro_trans, fecha, hora, 'Extraccion' AS tipo, monto, cod_caja,
+				 C.nro_cliente, tipo_doc, nro_doc, nombre, apellido, NULL AS destino   #SUBCONSULTA DEBITO
+		FROM 	((((extraccion  E JOIN transaccion T ON E.nro_trans = T.nro_trans)
+					JOIN transaccion_por_caja TPC ON TPC.nro_trans= T.nro_trans) 
+							JOIN cliente_ca CCA ON CCA.nro_ca = E.nro_ca)
+							JOIN caja_ahorro CA ON CCA.nro_ca = CA.nro_ca )
+							JOIN cliente C ON CCA.nro_cliente = C.nro_cliente))
+	        UNION (SELECT CCA.nro_ca, saldo, T.nro_trans, fecha, hora, 'Transferencia' AS tipo, monto,  cod_caja,
+				  CCA.nro_cliente, tipo_doc, nro_doc, nombre, apellido,  destino   #SUBCONSULTA DEPOSITO
+			        FROM 	((((transferencia TR JOIN transaccion T ON TR.nro_trans = T.nro_trans) 
+					            JOIN transaccion_por_caja TPC ON TPC.nro_trans= T.nro_trans)
+								JOIN cliente_ca CCA ON CCA.nro_ca = TR.origen)
+								JOIN caja_ahorro CA ON CCA.nro_ca = CA.nro_ca )
+								JOIN cliente C ON CCA.nro_cliente = C.nro_cliente) ;
 
 
 
- CREACIÓN DE USUARIOS Y PRIVILEGIOS*/
+/* CREACIÓN DE USUARIOS Y PRIVILEGIOS*/
 
 
 
@@ -366,5 +388,7 @@ GRANT SELECT, INSERT, UPDATE ON banco.Cliente_CA TO 'empleado'@'%' ;
 GRANT SELECT, INSERT, UPDATE ON banco.Cliente TO 'empleado'@'%' ;
 GRANT SELECT, INSERT, UPDATE ON banco.Pago TO 'empleado'@'%' ;
 
+CREATE USER 'atm'@'%' IDENTIFIED BY 'atm';
+GRANT SELECT ON banco.trans_cajas_ahorro TO 'atm'@'%';
+GRANT SELECT, UPDATE ON banco.Tarjeta TO 'atm'@'%' ;
 
-/*update*/
