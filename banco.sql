@@ -94,7 +94,6 @@ CREATE TABLE Plazo_Cliente (
     CONSTRAINT FK_Plazo_Cliente_Plazo_Fijo 
     FOREIGN KEY (nro_plazo) REFERENCES Plazo_Fijo (nro_plazo) 
        ON DELETE RESTRICT ON UPDATE CASCADE,
-    /*RESTRICCIONES DE DELETE*/
     CONSTRAINT FK_Plazo_Cliente_Cliente 
     FOREIGN KEY (nro_cliente) REFERENCES Cliente (nro_cliente)  
        ON DELETE RESTRICT ON UPDATE CASCADE  
@@ -135,7 +134,6 @@ CREATE TABLE Pago (
     CONSTRAINT FK_Pago_Prestamo
     FOREIGN KEY (nro_prestamo) REFERENCES Prestamo (nro_prestamo)
     ON DELETE RESTRICT ON UPDATE CASCADE
-    /*RESTRICCIONES DE DELETE*/
 
 ) ENGINE=InnoDB;
 
@@ -167,7 +165,6 @@ CREATE TABLE Cliente_CA (
    CONSTRAINT FK_Cliente_CA_Cliente
     FOREIGN KEY (nro_cliente) REFERENCES Cliente (nro_cliente)  
        ON DELETE RESTRICT ON UPDATE CASCADE,
-    /*PREGUNTAR SOBRE LAS RESTRICCIONES DE DELETE*/
     CONSTRAINT FK_Cliente_CA_Caja_Ahorro
     FOREIGN KEY (nro_ca) REFERENCES Caja_Ahorro (nro_ca)
         ON DELETE RESTRICT ON UPDATE CASCADE 
@@ -185,10 +182,8 @@ CREATE TABLE Tarjeta (
     CONSTRAINT pk_Tarjeta PRIMARY KEY (nro_tarjeta),
 
     CONSTRAINT FK_Tarjeta_Cliente_CA
-    /*FORMATO DE LAS DOS CLAVES ESTA BIEN?????*/
     FOREIGN KEY (nro_cliente,nro_ca) REFERENCES Cliente_CA (nro_cliente, nro_ca)  
        ON DELETE RESTRICT ON UPDATE CASCADE
-    /*PREGUNTAR SOBRE LAS RESTRICCIONES DE DELETE*/
 
 ) ENGINE=InnoDB;
 
@@ -207,7 +202,7 @@ CREATE TABLE Ventanilla (
     CONSTRAINT FK_Ventanilla_Caja
     FOREIGN KEY (cod_caja) REFERENCES Caja (cod_caja)  
        ON DELETE RESTRICT ON UPDATE CASCADE,
-    /*PREGUNTAR SOBRE LAS RESTRICCIONES DE DEL Delete*/
+
     CONSTRAINT FK_Ventanilla_Sucursal
     FOREIGN KEY (nro_suc) REFERENCES Sucursal (nro_suc)  
        ON DELETE RESTRICT ON UPDATE CASCADE
@@ -223,7 +218,7 @@ CREATE TABLE ATM (
     CONSTRAINT FK_ATM_Caja
     FOREIGN KEY (cod_caja) REFERENCES Caja (cod_caja)  
        ON DELETE RESTRICT ON UPDATE CASCADE,
-    /*PREGUNTAR SOBRE LAS RESTRICCIONES DE DEL Delete*/
+
     CONSTRAINT FK_ATM_Ciudad
     FOREIGN KEY (cod_postal) REFERENCES Ciudad (cod_postal)  
        ON DELETE RESTRICT ON UPDATE CASCADE
@@ -232,7 +227,7 @@ CREATE TABLE ATM (
 CREATE TABLE Transaccion (
     nro_trans BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     fecha DATE NOT NULL,
-    hora TIME NOT NULL, /*FORMATO DE LA HORA (????)*/
+    hora TIME NOT NULL, 
     monto DECIMAL(16,2) UNSIGNED NOT NULL,
     CONSTRAINT pk_Transaccion PRIMARY KEY (nro_trans)
 
@@ -249,9 +244,8 @@ CREATE TABLE Debito (
     CONSTRAINT FK_Debito_Transaccion
     FOREIGN KEY (nro_trans) REFERENCES Transaccion (nro_trans)  
        ON DELETE RESTRICT ON UPDATE CASCADE,
-    /*FORMATO DE DELETE ???????*/
+    
     CONSTRAINT FK_Debito_Cliente_CA
-    /*FORMATO DE LAS DOS CLAVES ESTA BIEN?????*/
     FOREIGN KEY (nro_cliente,nro_ca) REFERENCES Cliente_CA (nro_cliente, nro_ca)  
        ON DELETE RESTRICT ON UPDATE CASCADE
 
@@ -266,7 +260,7 @@ CREATE TABLE Transaccion_por_caja (
     CONSTRAINT FK_Transaccion_por_caja_Transaccion
     FOREIGN KEY (nro_trans) REFERENCES Transaccion (nro_trans)  
        ON DELETE RESTRICT ON UPDATE CASCADE,
-    /*FORMATO DE DELETE ???????*/
+
     CONSTRAINT FK_Transaccion_por_caja_Caja
     FOREIGN KEY (cod_caja) REFERENCES Caja (cod_caja)
         ON DELETE RESTRICT ON UPDATE CASCADE
@@ -282,7 +276,7 @@ CREATE TABLE Deposito (
     CONSTRAINT FK_Deposito_Transaccion_por_caja
     FOREIGN KEY (nro_trans) REFERENCES Transaccion_por_caja (nro_trans)  
        ON DELETE RESTRICT ON UPDATE CASCADE,
-    /*DELETE (?) JEJE*/
+   
     CONSTRAINT FK_Deposito_Caja_Ahorro
     FOREIGN KEY (nro_ca) REFERENCES Caja_Ahorro (nro_ca)  
        ON DELETE RESTRICT ON UPDATE CASCADE
@@ -300,9 +294,8 @@ CREATE TABLE Extraccion (
     CONSTRAINT FK_Extraccion_Transaccion_por_caja
     FOREIGN KEY (nro_trans) REFERENCES Transaccion_por_caja (nro_trans)  
        ON DELETE RESTRICT ON UPDATE CASCADE,
-    /*DELETE (?) JEJE*/
+    
     CONSTRAINT FK_Extraccion_Cliente_CA
-    /*FORMATO DE LAS DOS CLAVES ESTA BIEN?????*/
     FOREIGN KEY (nro_cliente,nro_ca) REFERENCES Cliente_CA (nro_cliente, nro_ca)  
        ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB;
@@ -323,8 +316,6 @@ CREATE TABLE Transferencia (
     FOREIGN KEY (nro_cliente,origen) REFERENCES Cliente_CA (nro_cliente, nro_ca)  
        ON DELETE RESTRICT ON UPDATE CASCADE,
 
-   
-/*LO MISMO PARA EL DESTINO QUE EL ORIGEN???*/
     CONSTRAINT FK_Transferencia_Caja_Ahorro
     FOREIGN KEY (destino) REFERENCES Caja_Ahorro (nro_ca)  
        ON DELETE RESTRICT ON UPDATE CASCADE
@@ -366,10 +357,6 @@ CREATE TABLE Transferencia (
 
 
 /* CREACIÓN DE USUARIOS Y PRIVILEGIOS*/
-
-
-
-
 CREATE USER 'admin'@'localhost'  IDENTIFIED BY 'admin';
 GRANT ALL PRIVILEGES ON banco.* TO 'admin'@'localhost' WITH GRANT OPTION;
 GRANT CREATE USER ON *.* TO 'admin'@'localhost';
