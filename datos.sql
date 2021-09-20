@@ -54,3 +54,21 @@ INSERT INTO Extraccion VALUES(2,3 ,1);
 
 /*transferencia(nro_trans, nro_cliente, origen, destino)*/
 INSERT INTO Transferencia VALUES(4, 1, 3, 2);
+
+/*
+INSERT INTO Sucursal (nombre, direccion, telefono, horario, cod_postal) 
+VALUES("la Sucu", "Peru 200", "291 6789191", "de 9 a 9:15", 8000);
+
+
+INSERT INTO Empleado (apellido, nombre, tipo_doc, nro_doc, direccion, telefono, cargo, PASSWORD, nro_suc) 
+VALUES("Gonzalo", "Selene", "DNI", 41956781, "Cordoba 569", "2392589641","Administrativa", 
+md5(12345), 1);
+
+
+
+
+	
+	SELECT * FROM Empleado;
+
+
+*/

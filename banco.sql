@@ -372,8 +372,10 @@ CREATE TABLE Transferencia (
 
 CREATE USER 'admin'@'localhost'  IDENTIFIED BY 'admin';
 GRANT ALL PRIVILEGES ON banco.* TO 'admin'@'localhost' WITH GRANT OPTION;
+GRANT CREATE USER ON *.* TO 'admin'@'localhost';
 
 CREATE USER 'empleado'@'%'  IDENTIFIED BY 'empleado';
+GRANT SELECT ON banco.Empleado TO 'empleado'@'%' ;
 GRANT SELECT ON banco.Sucursal TO 'empleado'@'%' ;
 GRANT SELECT ON banco.Tasa_Plazo_Fijo TO 'empleado'@'%' ;
 GRANT SELECT ON banco.Tasa_Prestamo TO 'empleado'@'%' ;
