@@ -380,4 +380,5 @@ GRANT SELECT, INSERT, UPDATE ON banco.Pago TO 'empleado'@'%' ;
 CREATE USER 'atm'@'%' IDENTIFIED BY 'atm';
 GRANT SELECT ON banco.trans_cajas_ahorro TO 'atm'@'%';
 GRANT SELECT, UPDATE ON banco.Tarjeta TO 'atm'@'%' ;
+/*DICE QUE SOLO PUEDE MODIFICAR EL PIN, */
 
