@@ -1,9 +1,7 @@
-
-
 CREATE DATABASE banco;
-
 USE banco;
 
+/*------------------------------------CREACION DE TABLAS---------------------------------------*/
 CREATE TABLE Ciudad (
     cod_postal SMALLINT UNSIGNED NOT NULL,
     nombre VARCHAR(40) NOT NULL,
@@ -116,7 +114,7 @@ CREATE TABLE Prestamo (
     CONSTRAINT FK_Prestamo_Empleado 
     FOREIGN KEY (legajo) REFERENCES Empleado (legajo)
     ON DELETE RESTRICT ON UPDATE CASCADE,
-    /*RESTRICCIONES DE DELETE*/
+
     CONSTRAINT FK_Prestamo_Cliente
     FOREIGN KEY (nro_cliente) REFERENCES Cliente (nro_cliente)
     ON DELETE RESTRICT ON UPDATE CASCADE
@@ -165,6 +163,7 @@ CREATE TABLE Cliente_CA (
    CONSTRAINT FK_Cliente_CA_Cliente
     FOREIGN KEY (nro_cliente) REFERENCES Cliente (nro_cliente)  
        ON DELETE RESTRICT ON UPDATE CASCADE,
+
     CONSTRAINT FK_Cliente_CA_Caja_Ahorro
     FOREIGN KEY (nro_ca) REFERENCES Caja_Ahorro (nro_ca)
         ON DELETE RESTRICT ON UPDATE CASCADE 
@@ -322,7 +321,7 @@ CREATE TABLE Transferencia (
 
 ) ENGINE=InnoDB;
 
-/* VISTA */
+/*----------------------------------------------VISTA-------------------------------------------------*/
 
  CREATE VIEW trans_cajas_ahorro AS 
    (((SELECT D.nro_ca, saldo, T.nro_trans, fecha, hora, 'Debito' AS tipo, monto, NULL AS cod_caja,
@@ -354,9 +353,7 @@ CREATE TABLE Transferencia (
 								JOIN caja_ahorro CA ON CCA.nro_ca = CA.nro_ca )
 								JOIN cliente C ON CCA.nro_cliente = C.nro_cliente) ;
 
-
-
-/* CREACIÓN DE USUARIOS Y PRIVILEGIOS*/
+/*----------------------CREACIÓN DE USUARIOS Y PRIVILEGIOS------------------------------------------*/
 CREATE USER 'admin'@'localhost'  IDENTIFIED BY 'admin';
 GRANT ALL PRIVILEGES ON banco.* TO 'admin'@'localhost' WITH GRANT OPTION;
 GRANT CREATE USER ON *.* TO 'admin'@'localhost';
@@ -380,5 +377,3 @@ GRANT SELECT, INSERT, UPDATE ON banco.Pago TO 'empleado'@'%' ;
 CREATE USER 'atm'@'%' IDENTIFIED BY 'atm';
 GRANT SELECT ON banco.trans_cajas_ahorro TO 'atm'@'%';
 GRANT SELECT, UPDATE ON banco.Tarjeta TO 'atm'@'%' ;
-/*DICE QUE SOLO PUEDE MODIFICAR EL PIN, */
-

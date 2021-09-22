@@ -1,5 +1,4 @@
 /*CIUDADES(cod_postal, Ciudad)*/
-
 INSERT INTO Ciudad  VALUES (8000, "Bahía Blanca");
 INSERT INTO Ciudad  VALUES (7500, "Tres Arroyos");
 INSERT INTO Ciudad  VALUES (7167, "Pinamar'");
@@ -81,11 +80,11 @@ INSERT INTO Tarjeta (PIN, CVT, fecha_venc, nro_cliente, nro_ca)
     VALUES( md5(0918), md5(65316), "2023/08/01", 3, 1);
 
 /*Caja(cod_caja) ------------------------------------------PREGUNTAR*/ 
-INSERT INTO Caja VALUES(1);
-INSERT INTO Caja VALUES(2);
-INSERT INTO Caja VALUES(3);
-INSERT INTO Caja VALUES(4);
-INSERT INTO Caja VALUES(5);
+INSERT INTO Caja VALUES();
+INSERT INTO Caja VALUES();
+INSERT INTO Caja VALUES();
+INSERT INTO Caja VALUES();
+INSERT INTO Caja VALUES();
 
 /*Ventanilla (cod_caja, nro_suc)*/
 INSERT INTO Ventanilla VALUES (1, 1);
@@ -97,25 +96,41 @@ INSERT INTO ATM VALUES (4, 8000, "Zelarrayan 620");
 INSERT INTO ATM VALUES (5, 8153, "Monte Verde 210");
 
 /*Transaccion(nro_trans, fecha, hora, monto) */
-INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('15/07/2019', '%d/%m/%Y'), 1525, 785.21); 
-INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('30/05/2021', '%d/%m/%Y'), 2025, 1000);
-INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('24/07/2019', '%d/%m/%Y'), 1230, 475.50);
-INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('30/06/2020', '%d/%m/%Y'), 0410, 15000.99);
+INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('15/07/2019', '%d/%m/%Y'), '15:25', 785.21); 
+INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('30/05/2021', '%d/%m/%Y'), '20:25', 1000);
+INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('24/07/2019', '%d/%m/%Y'), '12:30', 475.50);
+INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('30/06/2020', '%d/%m/%Y'), '04:10', 15000.99);
+
+INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('20/06/2021', '%d/%m/%Y'), '16:18', 1800);
+INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('15/01/2021', '%d/%m/%Y'), '17:40', 8000.99);
+INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('14/02/2021', '%d/%m/%Y'), '20:30', 10000.50);
+
+INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('03/06/2021', '%d/%m/%Y'), '18:10', 1330.25);
+INSERT INTO Transaccion (fecha, hora, monto) VALUES(str_to_date('21/07/2021', '%d/%m/%Y'), '07:40', 1692.99);
 
 /* Debito(nro_trans, descripcion, nro_cliente,nro_ca)*/
-INSERT INTO Debito VALUES(1, "almacen qcyo verduleria", 2, 2);
+INSERT INTO Debito VALUES(1, " Verduleria 'Los hermanos' ", 1, 3);
+INSERT INTO Debito VALUES(8, " Edna modas ", 2, 2);
+INSERT INTO Debito VALUES(9, " kios-kito ", 3, 1);
 
 /* Transaccion_por_caja(nro_trans, cod_caja)*/
 INSERT INTO Transaccion_por_caja VALUES (2, 1);
-INSERT INTO Transaccion_por_caja VALUES (3, 1);
+INSERT INTO Transaccion_por_caja VALUES (3, 3);
 INSERT INTO Transaccion_por_caja VALUES (4, 2);
+
+INSERT INTO Transaccion_por_caja VALUES (5, 2);
+INSERT INTO Transaccion_por_caja VALUES (6, 4);
+INSERT INTO Transaccion_por_caja VALUES (7, 5);
 
 /* Deposito(nro_trans, nro_ca)*/
 INSERT INTO Deposito VALUES(2, 1);
+INSERT INTO Deposito VALUES(6, 2);
 
 /*Extraccion(nro_trans, nro_cliente, nro_ca)*/
-INSERT INTO Extraccion VALUES(2,3 ,1);
+INSERT INTO Extraccion VALUES(3, 3 ,1);
+INSERT INTO Extraccion VALUES(5, 1 ,3);
 
 /*Transferencia(nro_trans, nro_cliente, origen, destino)*/
 INSERT INTO Transferencia VALUES(4, 1, 3, 2);
+INSERT INTO Transferencia VALUES(7, 3, 1, 3);
 
