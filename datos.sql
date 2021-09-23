@@ -79,7 +79,7 @@ INSERT INTO Tarjeta (PIN, CVT, fecha_venc, nro_cliente, nro_ca)
 INSERT INTO Tarjeta (PIN, CVT, fecha_venc, nro_cliente, nro_ca)
     VALUES( md5(0918), md5(65316), "2023/08/01", 3, 1);
 
-/*Caja(cod_caja) ------------------------------------------PREGUNTAR*/ 
+/*Caja(cod_caja) */ 
 INSERT INTO Caja VALUES();
 INSERT INTO Caja VALUES();
 INSERT INTO Caja VALUES();
