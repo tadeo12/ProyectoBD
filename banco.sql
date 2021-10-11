@@ -326,31 +326,31 @@ CREATE TABLE Transferencia (
  CREATE VIEW trans_cajas_ahorro AS 
    (((SELECT D.nro_ca, saldo, T.nro_trans, fecha, hora, 'Debito' AS tipo, monto, NULL AS cod_caja,
 				 C.nro_cliente, tipo_doc, nro_doc, nombre, apellido, NULL AS destino   #SUBCONSULTA DEBITO
-		FROM 	(((debito D JOIN transaccion T ON D.nro_trans = T.nro_trans) 
-					JOIN cliente_ca CCA ON CCA.nro_ca = D.nro_ca)
-					JOIN caja_ahorro CA ON CCA.nro_ca = CA.nro_ca )
-					JOIN cliente C ON CCA.nro_cliente = C.nro_cliente)
+		FROM 	(((debito D NATURAL JOIN transaccion T ) 
+					NATURAL JOIN cliente_ca CCA )
+					NATURAL JOIN caja_ahorro CA )
+					NATURAL JOIN cliente C )
 	UNION 
     (SELECT D.nro_ca, saldo, T.nro_trans, fecha, hora, 'Deposito' AS tipo, monto,  cod_caja,
 		NULL AS nro_cliente,NULL AS tipo_doc,NULL AS nro_doc,NULL AS nombre,NULL AS apellido, NULL AS destino   #SUBCONSULTA DEPOSITO
-			FROM 	(((deposito D JOIN transaccion T ON D.nro_trans = T.nro_trans)
-						JOIN transaccion_por_caja TPC ON TPC.nro_trans= T.nro_trans)
-						JOIN cliente_ca CCA ON CCA.nro_ca = D.nro_ca)
-						JOIN caja_ahorro CA ON CCA.nro_ca = CA.nro_ca ) )
+			FROM 	(((deposito D NATURAL JOIN transaccion T )
+						NATURAL JOIN transaccion_por_caja TPC )
+						NATURAL JOIN cliente_ca CCA )
+						NATURAL JOIN caja_ahorro CA ) )
 		UNION 
 		(SELECT E.nro_ca, saldo, T.nro_trans, fecha, hora, 'Extraccion' AS tipo, monto, cod_caja,
-				 C.nro_cliente, tipo_doc, nro_doc, nombre, apellido, NULL AS destino   #SUBCONSULTA DEBITO
-		FROM 	((((extraccion  E JOIN transaccion T ON E.nro_trans = T.nro_trans)
-					JOIN transaccion_por_caja TPC ON TPC.nro_trans= T.nro_trans) 
-							JOIN cliente_ca CCA ON CCA.nro_ca = E.nro_ca)
-							JOIN caja_ahorro CA ON CCA.nro_ca = CA.nro_ca )
-							JOIN cliente C ON CCA.nro_cliente = C.nro_cliente))
+				 C.nro_cliente, tipo_doc, nro_doc, nombre, apellido, NULL AS destino   #SUBCONSULTA EXTRACCION
+		FROM 	((((extraccion  E NATURAL JOIN transaccion T )
+					NATURAL JOIN transaccion_por_caja TPC ) 
+							NATURAL JOIN cliente_ca CCA )
+							NATURAL JOIN caja_ahorro CA )
+							NATURAL JOIN cliente C  ))
 	        UNION (SELECT CCA.nro_ca, saldo, T.nro_trans, fecha, hora, 'Transferencia' AS tipo, monto,  cod_caja,
-				  CCA.nro_cliente, tipo_doc, nro_doc, nombre, apellido,  destino   #SUBCONSULTA DEPOSITO
-			        FROM 	((((transferencia TR JOIN transaccion T ON TR.nro_trans = T.nro_trans) 
-					            JOIN transaccion_por_caja TPC ON TPC.nro_trans= T.nro_trans)
-								JOIN cliente_ca CCA ON CCA.nro_ca = TR.origen)
-								JOIN caja_ahorro CA ON CCA.nro_ca = CA.nro_ca )
+				  C.nro_cliente, tipo_doc, nro_doc, nombre, apellido,  destino   #SUBCONSULTA TRANSFERENCIA
+			        FROM 	((((transferencia TR NATURAL JOIN transaccion T) 
+					           NATURAL JOIN transaccion_por_caja TPC )
+								JOIN cliente_ca CCA ON CCA.nro_ca = TR.origen AND CCA.nro_cliente = TR.nro_cliente)
+								NATURAL JOIN caja_ahorro CA )
 								JOIN cliente C ON CCA.nro_cliente = C.nro_cliente) ;
 
 /*----------------------CREACIÓN DE USUARIOS Y PRIVILEGIOS------------------------------------------*/
